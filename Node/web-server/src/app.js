@@ -1,13 +1,30 @@
 const path = require('path')
 const express = require('express')
-
+const hbs = require('hbs')
 
 const app = express()
+
+// Define pathss for Express config
 const publicDirectoryPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialsPath = path.join(__dirname, '../templates/partials')
 
+// Setup handlebars engine and views location
+app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+hbs.registerPartials(partialsPath)
 
+//Setupe static directory to serve
 app.use(express.static(publicDirectoryPath))
 
+
+
+app.get('', (req, res) => {
+  res.render('index', {
+    title: 'Weatheer App',
+    name: 'Phillip Lai'
+  })
+})
 
 //code below is not being used and is replaced with app.use()
 // app.get('', (req, res) => {
@@ -15,15 +32,18 @@ app.use(express.static(publicDirectoryPath))
 // })
 
 app.get('/help', (req, res) => {
-    res.send([{
-        name: 'Phillip'
-    }, {
-        name: 'Andrew'
-    }])
+    res.render('help', {
+      helpText: "This is some helpful text",
+      title: "Help",
+      name: "Phillip Lai"
+    })
 })
 
 app.get('/about', (req, res) => {
-    res.send("About Page")
+    res.render("about", {
+      title: 'About Me',
+      name: 'Phillip Lai'
+    })
 })
 
 app.get('/weather', (req, res) => {
