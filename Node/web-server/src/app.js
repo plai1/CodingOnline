@@ -48,12 +48,27 @@ app.get('/about', (req, res) => {
 
 app.get('/weather', (req, res) => {
     res.send({
+        forecast: "It is sunny",
         location: "Fremont",
         weather: "100 F"
     })
 })
 
+app.get('/help/*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        name: 'Phillip Lai',
+        errorMessage: 'Help article not found.'
+    })
+})
 
+app.get('*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        name: 'Phillip Lai',
+        errorMessage: 'Page not found.'
+    })
+})
 
 
 
